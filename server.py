@@ -67,5 +67,7 @@ while True:
             #sock.recv(9000)
         except Exception as E:
             print(E)
+            if 'WinError' in E:
+                break
 
     conn.close()

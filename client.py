@@ -14,11 +14,12 @@ print(len(t('abc def')))
 print('connecting')
 sock = socket.socket()
 IP = input('Enter server IP -> ')
+print('connecting 2')
 sock.connect((IP, 9090))
 print('connected')
 
 def send(mail):
-    print(mail)
+    #print(mail)
     sock.send(t(mail).encode())
 
 scr = pygame.display.set_mode([600, 600])
@@ -29,7 +30,6 @@ while kg:
         if event.type == pygame.QUIT:
             kg = False
         if event.type == pygame.KEYDOWN:
-            print('Hello mother fucker')
             sock.send(b'prs')
             send(pygame.key.name(event.key))
         if event.type == pygame.KEYUP:
