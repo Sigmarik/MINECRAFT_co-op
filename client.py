@@ -1,10 +1,25 @@
 import socket
 import pygame
 
+key_len = 100
+
+def t(s):
+    answ = s.replace(' ', 'H')
+    delta_l = key_len - len(s)
+    answ = answ + 'P' * delta_l
+    return answ
+
+print(len(t('abc def')))
+
 print('connecting')
 sock = socket.socket()
-sock.connect(('localhost', 9090))
+IP = input('Enter server IP -> ')
+sock.connect((IP, 9090))
 print('connected')
+
+def send(mail):
+    print(mail)
+    sock.send(t(mail).encode())
 
 scr = pygame.display.set_mode([600, 600])
 kg = True
@@ -14,19 +29,23 @@ while kg:
         if event.type == pygame.QUIT:
             kg = False
         if event.type == pygame.KEYDOWN:
+            print('Hello mother fucker')
             sock.send(b'prs')
-            sock.send(pygame.key.name(event.key).encode())
+            send(pygame.key.name(event.key))
         if event.type == pygame.KEYUP:
             sock.send(b'rel')
-            sock.send(pygame.key.name(event.key).encode())
+            send(pygame.key.name(event.key))
         if event.type == pygame.MOUSEBUTTONDOWN:
             sock.send(b'mpr')
-            sock.send(str(event.button).encode())
+            send(str(event.button))
         if event.type == pygame.MOUSEBUTTONUP:
-            sock.send(b'mrl')
-            sock.send(str(event.button).encode())
+            if event.button not in [4, 5]:
+                sock.send(b'mrl')
+                send(str(event.button))
         if event.type == pygame.MOUSEMOTION:
             sock.send(b'mmv')
-            sock.send((str(mpos[0] - 300) + ' ' + str(mpos[1] - 300)).encode())
+            send((str(mpos[0] - 300) + ' ' + str(mpos[1] - 300)))
+    pygame.display.update()
+    pygame.mouse.set_pos([300, 300])
 pygame.quit()
 sock.close()
