@@ -32,7 +32,7 @@ while True:
                 pos_s = conn.recv(1024).decode()
                 pos = [int(x) for x in pos_s.split()]
                 print(pos)
-                #pyautogui.move(*pos)
+                pyautogui.move(*pos)
             if data == b'mpr':
                 button = conn.recv(1024).decode()
                 print('Mouse pressed', button)
