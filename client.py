@@ -1,4 +1,5 @@
 import socket
+from socket import AF_INET, SOCK_DGRAM
 import pygame
 
 key_len = 100
@@ -12,15 +13,14 @@ def t(s):
 print(len(t('abc def')))
 
 print('connecting')
-sock = socket.socket()
+sock = socket.socket(AF_INET, SOCK_DGRAM)
 IP = input('Enter server IP -> ')
-print('connecting 2')
-sock.connect((IP, 9090))
+addr = (IP, 9090)
 print('connected')
 
 def send(mail):
     #print(mail)
-    sock.send(t(mail).encode())
+    sock.sendto(t(mail).encode(), addr)
 
 scr = pygame.display.set_mode([600, 600])
 kg = True
@@ -30,20 +30,20 @@ while kg:
         if event.type == pygame.QUIT:
             kg = False
         if event.type == pygame.KEYDOWN:
-            sock.send(b'prs')
+            sock.sendto(b'prs', addr)
             send(pygame.key.name(event.key))
         if event.type == pygame.KEYUP:
-            sock.send(b'rel')
+            sock.sendto(b'rel', addr)
             send(pygame.key.name(event.key))
         if event.type == pygame.MOUSEBUTTONDOWN:
-            sock.send(b'mpr')
+            sock.sendto(b'mpr', addr)
             send(str(event.button))
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button not in [4, 5]:
-                sock.send(b'mrl')
+                sock.sendto(b'mrl', addr)
                 send(str(event.button))
         if event.type == pygame.MOUSEMOTION:
-            sock.send(b'mmv')
+            sock.sendto(b'mmv', addr)
             send((str(mpos[0] - 300) + ' ' + str(mpos[1] - 300)))
     pygame.display.update()
     pygame.mouse.set_pos([300, 300])
