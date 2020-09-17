@@ -49,9 +49,9 @@ while True:
             if data == b'mpr':
                 button = argums
                 print('Mouse pressed', button)
-                if button == 1:
+                if button == '1':
                     pyautogui.mouseDown(button='left')
-                if button == 3:
+                if button == '3':
                     pyautogui.mouseDown(button='right')
                 if button == 4:
                     pyautogui.scroll(1)
@@ -60,9 +60,9 @@ while True:
             if data == b'mrl':
                 button = argums
                 print('Mouse released', button)
-                if button == 1:
+                if button == '1':
                     pyautogui.mouseUp(button='left')
-                if button == 3:
+                if button == '3':
                     pyautogui.mouseUp(button='right')
             #sock.recv(9000)
         except Exception as E:
